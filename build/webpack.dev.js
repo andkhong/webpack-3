@@ -8,7 +8,6 @@ let stylePath = path.join(__dirname, '../src/styles');
 let basePath = path.join(__dirname, '..', 'dist');
 
 module.exports = merge(common, {
-    // Optimal speed for source mapping
     devtool: 'eval',
     output: {
         filename: '[name].bundle.js'
@@ -31,10 +30,9 @@ module.exports = merge(common, {
         contentBase: basePath, // Assets will be served
         open: true, // Open browser to localhost:port
         // Must be enabled for resolve modules to work on webpack.common.js
-        // Inline also improve developer compilation by reducing the bundle by a good amount
+        // Inline also improve developer compilation by reducing the bundle by a fair amount
         inline: false,
-        // Falls back to index.html; we won't have to set an entry point and add an additional loader
-        historyApiFallback: true,
+        historyApiFallback: true, // Falls back to index.html; we won't have to set an entry point and add an additional loader        
         port: 9000
     },
     watchOptions: {
@@ -42,10 +40,6 @@ module.exports = merge(common, {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        // new webpack.DllPlugin({
-        //     context: __dirname,
-        //     path: path.join(__dirname, 'manifest.json'),
-        // }),
         new webpack.optimize.CommonsChunkPlugin({ // Not sure if this actually helps?
             name: 'manifest',
             minChunks: Infinity
