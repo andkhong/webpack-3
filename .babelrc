@@ -1,0 +1,19 @@
+{
+    "presets":[
+        ["env", { 
+            "loose": true, 
+            "modules": false
+        }], 
+        "react",
+        "stage-0"
+    ],
+    "plugins": [
+        "transform-runtime", 
+        "syntax-dynamic-import"
+    ],
+    "env": {
+        "production": {
+          "plugins": ["transform-react-remove-prop-types"]
+        }
+    }
+}
