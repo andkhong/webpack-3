@@ -2,18 +2,23 @@
     "presets":[
         ["env", { 
             "loose": true, 
-            "modules": false
+            "modules": false // Allows for tree shaking functions
         }], 
         "react",
         "stage-0"
     ],
     "plugins": [
-        "transform-runtime", 
-        "syntax-dynamic-import"
+        "transform-runtime", // Allows for Async/Await functions
+        "syntax-dynamic-import" // Allows for dynamic imports, which means code splitting
     ],
     "env": {
         "production": {
-          "plugins": ["transform-react-remove-prop-types"]
+            "plugins": [
+                "transform-react-remove-prop-types",
+                "transform-react-constant-elements",
+                "transform-react-inline-elements"
+            ]
         }
     }
 }
+

@@ -6,6 +6,8 @@ const common = require('./webpack.common.js');
 
 let stylePath = path.join(__dirname, '../src/styles');
 let basePath = path.join(__dirname, '..', 'dist');
+let nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
+
 
 module.exports = merge(common, {
     devtool: 'eval',
@@ -17,10 +19,10 @@ module.exports = merge(common, {
             {
                 test: /\.(css|scss)$/,
                 include: stylePath,
-                exclude: /node_modules/,
+                exclude: nodeModulesPath,
                 use: [
-                    'style-loader',
-                    { loader: 'css-loader', options: { minimize: true } },
+                    'style-loader', // Plugin for development, injects css tag to html
+                    'css-loader',
                     'sass-loader'
                 ]
             }
@@ -33,7 +35,10 @@ module.exports = merge(common, {
         // Inline also improve developer compilation by reducing the bundle by a fair amount
         inline: false,
         historyApiFallback: true, // Falls back to index.html; we won't have to set an entry point and add an additional loader        
-        port: 9000
+        port: 9000,
+        proxy: {
+            
+        }
     },
     watchOptions: {
         ignored: /node_modules/

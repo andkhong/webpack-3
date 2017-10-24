@@ -10,16 +10,16 @@ const autoprefixer = require('autoprefixer');
 
 let templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
 let stylePath = path.join(__dirname, '../src/styles');
-let staticSourcePath = path.resolve(__dirname, '..', 'dist');
+let staticSourcePath = path.resolve(__dirname, '..', 'dist'); // Deal with later
 
 module.exports = merge(common, {
   devtool: 'cheap-source-map',  
   // devtool: 'cheap-module-source-map',
   entry: {
-    vendor: ['react', 'react-dom']
+    vendor: ['react', 'react-dom', 'react-router']
   },
   output: {
-    filename: '[name].[chunkhash].js'
+    filename: 'app.[chunkhash].js'
   },
   module: {
     rules: [
@@ -30,11 +30,11 @@ module.exports = merge(common, {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-              { loader: 'css-loader', options: { minimize: true } },
+              { loader: 'css-loader', options: { minimize: true, sourceMap: true } },
               'postcss-loader',
               'sass-loader'
             ]
-          })
+        })
       }
     ]
   },
@@ -71,7 +71,7 @@ module.exports = merge(common, {
       }
     }),
     new ExtractTextPlugin({
-        filename: '[name].[contenthash].css',
+        filename: 'app.[chunkhash].css',
         allChunks: true
     }),
     new webpack.optimize.ModuleConcatenationPlugin(), // Enables Scope hosting, reducing build size  
@@ -79,7 +79,8 @@ module.exports = merge(common, {
     new webpack.HashedModuleIdsPlugin(), // Adds Deterministic Hashes for Caching, currently unnecssary but leave it here for now
     new webpack.optimize.CommonsChunkPlugin({ // Bundles minified core libraries
       name: 'vendor',
-      filename: '[name].[chunkhash].bundle.js'
+      filename: 'app.[chunkhash].bundle.js',
+      minChunks: Infinity,
     }),
     // new CompressionPlugin({
     //   asset: '[path].gz[query]',

@@ -1,6 +1,6 @@
 import React from 'react';
-import Thing from './thing';
+import Page1 from './Page1';
 
 export default function App() {
-    return <Thing name={'An'} />;
+    return <Page1 />;
 }
