@@ -22,7 +22,7 @@ module.exports = merge(common, {
                 use: [
                     'style-loader', // Plugin for development, injects css tag to html
                     { loader: 'css-loader', options: { modules: true }},
-                    { loader: 'sass-loader', options: { modules: true }}                    
+                    'sass-loader'
                 ]
             }
         ]
