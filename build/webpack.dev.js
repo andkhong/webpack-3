@@ -49,6 +49,11 @@ module.exports = merge(common, {
             name: 'manifest',
             minChunks: Infinity
         }),
+        new webpack.DefinePlugin({ // Standard Development settings for optimization
+            'process.env': {
+              'NODE_ENV': JSON.stringify('development')
+            }
+        }),
         // new BundleAnalyzerPlugin(), // Comment to analyze Bundle size
     ]
 });
