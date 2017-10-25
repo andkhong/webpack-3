@@ -7,7 +7,7 @@ let nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
 
 module.exports = {
     entry: {
-        index: entryPath
+        index: entryPath,
     },
     output: {
         path: outputPath

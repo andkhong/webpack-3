@@ -13,7 +13,8 @@ let stylePath = path.join(__dirname, '../src/styles');
 let staticSourcePath = path.resolve(__dirname, '..', 'dist'); // Deal with later
 
 module.exports = merge(common, {
-  devtool: 'cheap-source-map',  
+  devtool: false,
+  // devtool: 'cheap-source-map',
   // devtool: 'cheap-module-source-map',
   entry: {
     vendor: ['react', 'react-dom', 'react-router']
@@ -30,9 +31,9 @@ module.exports = merge(common, {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-              { loader: 'css-loader', options: { minimize: true, sourceMap: true } },
-              'postcss-loader',
-              'sass-loader'
+            { loader: 'css-loader', options: { minimize: true, sourceMap: true }},
+            'postcss-loader',
+            'sass-loader'
             ]
         })
       }

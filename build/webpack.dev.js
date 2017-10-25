@@ -30,7 +30,7 @@ module.exports = merge(common, {
     },
     devServer: {
         contentBase: basePath, // Assets will be served
-        open: true, // Open browser to localhost:port
+        // open: true, // Open browser to localhost:port
         // Must be enabled for resolve modules to work on webpack.common.js
         // Inline also improve developer compilation by reducing the bundle by a fair amount
         inline: false,
