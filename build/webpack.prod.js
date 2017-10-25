@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-// const CompressionPlugin = require('compression-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 let templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
 let stylePath = path.join(__dirname, '../src/styles');
@@ -82,13 +82,13 @@ module.exports = merge(common, {
       filename: 'app.[chunkhash].bundle.js',
       minChunks: Infinity,
     }),
-    // new CompressionPlugin({
-    //   asset: '[path].gz[query]',
-    //   algorithm: 'gzip',
-    //   test: /\.js$|\.css$|\.scss$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
-    //   threshold: 10240,
-    //   minRatio: 0.8,
-    //   deleteOriginalAssets: true
-    // })
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.scss$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+      threshold: 10240,
+      minRatio: 0.8,
+      deleteOriginalAssets: true
+    })
   ]
 });
