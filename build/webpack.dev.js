@@ -8,7 +8,6 @@ let stylePath = path.join(__dirname, '../src/styles');
 let basePath = path.join(__dirname, '..', 'dist');
 let nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
 
-
 module.exports = merge(common, {
     // devtool: 'eval',
     output: {
@@ -22,8 +21,8 @@ module.exports = merge(common, {
                 exclude: nodeModulesPath,
                 use: [
                     'style-loader', // Plugin for development, injects css tag to html
-                    'css-loader',
-                    'sass-loader'
+                    { loader: 'css-loader', options: { modules: true }},
+                    { loader: 'sass-loader', options: { modules: true }}                    
                 ]
             }
         ]

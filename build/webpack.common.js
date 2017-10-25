@@ -13,8 +13,8 @@ module.exports = {
         path: outputPath
     },
     resolve: {
-        extensions: ['.js', '.json', '.css', '.scss'],
-        modules: [sourcePath, nodeModulesPath],
+        extensions: ['.js', '.json', '.css', '.scss'], // Eliminates need to include extensions when importing
+        modules: [sourcePath, nodeModulesPath], // src folder will take precedences when searching for file 
         symlinks: false
     },
     module: {

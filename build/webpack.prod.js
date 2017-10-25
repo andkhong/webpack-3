@@ -31,10 +31,10 @@ module.exports = merge(common, {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            { loader: 'css-loader', options: { minimize: true, sourceMap: true }},
+            { loader: 'css-loader', options: { modules: true, minimize: true }},   
             'postcss-loader',
-            'sass-loader'
-            ]
+            { loader: 'sass-loader', options: { modules: true }}   
+          ]
         })
       }
     ]
