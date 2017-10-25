@@ -33,7 +33,7 @@ module.exports = merge(common, {
           use: [
             { loader: 'css-loader', options: { modules: true, minimize: true }},   
             'postcss-loader',
-            { loader: 'sass-loader', options: { modules: true }}   
+            'sass-loader'  
           ]
         })
       }
