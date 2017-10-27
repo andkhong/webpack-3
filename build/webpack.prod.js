@@ -37,18 +37,11 @@ module.exports = merge(common, {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin('dist/bundle', {
-      root: process.cwd(),
-      verbose: true
-    }),
+    new CleanWebpackPlugin('dist/bundle', { root: process.cwd(), verbose: true }),
     new webpack.optimize.ModuleConcatenationPlugin(), // Enables Scope hosting, reducing build size  
     new webpack.optimize.UglifyJsPlugin({ parallel: true}), // Standard minification tool with additional configs
     new webpack.HashedModuleIdsPlugin(), // Adds Deterministic Hashes for Caching, currently unnecssary but leave it here for now
-    new webpack.DefinePlugin({ // Standard Production settings for optimization
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    }),
+    new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': JSON.stringify('production')} }),
     new HtmlWebpackPlugin({
       template: templatePath,
       filename: 'index_bundle.html',
