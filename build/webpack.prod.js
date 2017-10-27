@@ -5,8 +5,10 @@ const common = require('./webpack.common.js');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+
+const OfflinePlugin = require('offline-plugin');
 const autoprefixer = require('autoprefixer');
-// const CompressionPlugin = require('compression-webpack-plugin');
 
 let templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
 let stylePath = path.join(__dirname, '../src/styles');
@@ -57,15 +59,15 @@ module.exports = merge(common, {
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
-          postcss: [
-              autoprefixer({
-                  browsers: [
-                      'last 3 version',
-                      'ie >= 10'
-                  ]
-              })
-          ],
-          context: staticSourcePath
+        context: staticSourcePath,
+        postcss: [
+            autoprefixer({
+                browsers: [
+                    'last 3 version',
+                    'ie >= 10'
+                ]
+            })
+        ]
       }
     }),
     new ExtractTextPlugin({
@@ -77,13 +79,17 @@ module.exports = merge(common, {
       filename: 'vendor.[chunkhash].bundle.js',
       minChunks: Infinity,
     }),
-    // new CompressionPlugin({
-    //   asset: '[path].gz[query]',
-    //   algorithm: 'gzip',
-    //   test: /\.js$|\.css$|\.scss$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
-    //   threshold: 10240,
-    //   minRatio: 0.8,
-    //   deleteOriginalAssets: true
-    // })
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.scss$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+      threshold: 10240,
+      minRatio: 0.8,
+      deleteOriginalAssets: true
+    }),
+    new OfflinePlugin({
+      AppCache: false,
+      ServiceWorker: { events: true },
+    }),
   ]
 });

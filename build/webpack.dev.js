@@ -9,6 +9,7 @@ let basePath = path.join(__dirname, '..', 'dist');
 let nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
 
 module.exports = merge(common, {
+    // devtool: 'cheap-module-eval-source-map',
     output: {
         filename: '[name].bundle.js',
         chunkFilename: '[name].js'
@@ -29,7 +30,7 @@ module.exports = merge(common, {
     },
     devServer: {
         contentBase: basePath, // Assets will be served
-        // open: true, // Open browser to localhost:port
+        open: true, // Open browser to localhost:port
         inline: false, // Inline reduces bundle size by fair amount, improving compilation while enabling resolve modules to work on webpack.common.js,
         historyApiFallback: true, // Falls back to index.html; we won't have to set an entry point and add an additional html loader        
         port: 9000,
@@ -42,7 +43,7 @@ module.exports = merge(common, {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': JSON.stringify('development')} }),        
+        new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': JSON.stringify('development')} }),
         // Code splitting in conjunction with Manifest keeps tracks of code that is unchange and doesn't rebuild core bundle
         // Webpack will recognize and recompile split code that is changing; incremental builds
         new webpack.optimize.CommonsChunkPlugin({
