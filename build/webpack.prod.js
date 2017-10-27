@@ -17,7 +17,8 @@ module.exports = merge(common, {
     vendor: ['react', 'react-dom']
   },
   output: {
-    filename: 'app.[chunkhash].js'
+    filename: '[name].[chunkhash].bundle.js',
+    chunkFilename: '[name].[chunkhash].js'
   },
   module: {
     rules: [
@@ -38,10 +39,10 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin('dist/bundle', { root: process.cwd(), verbose: true }),
+    new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': JSON.stringify('production')} }),    
     new webpack.optimize.ModuleConcatenationPlugin(), // Enables Scope hosting, reducing build size  
     new webpack.optimize.UglifyJsPlugin({ parallel: true}), // Standard minification tool with additional configs
     new webpack.HashedModuleIdsPlugin(), // Adds Deterministic Hashes for Caching, currently unnecssary but leave it here for now
-    new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': JSON.stringify('production')} }),
     new HtmlWebpackPlugin({
       template: templatePath,
       filename: 'index_bundle.html',
@@ -68,12 +69,12 @@ module.exports = merge(common, {
       }
     }),
     new ExtractTextPlugin({
-        filename: 'app.[chunkhash].css',
+        filename: 'style.[chunkhash].css',
         allChunks: true
     }),
     new webpack.optimize.CommonsChunkPlugin({ // Bundles minified core libraries
       name: 'vendor',
-      filename: 'app.[chunkhash].bundle.js',
+      filename: 'vendor.[chunkhash].bundle.js',
       minChunks: Infinity,
     }),
     // new CompressionPlugin({
