@@ -1,7 +1,7 @@
 const path = require('path');
 
 let entryPath = path.resolve(__dirname, '..', 'src', 'index.js');
-let outputPath = path.resolve(__dirname, '..', 'dist');
+let outputPath = path.resolve(__dirname, '..', 'dist', 'bundle');
 let sourcePath = path.resolve(__dirname, '..', 'src');
 let nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
 

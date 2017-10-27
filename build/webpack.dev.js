@@ -34,6 +34,7 @@ module.exports = merge(common, {
         historyApiFallback: true, // Falls back to index.html; we won't have to set an entry point and add an additional loader        
         port: 9000,
         proxy: {
+            
         }
     },
     watchOptions: {

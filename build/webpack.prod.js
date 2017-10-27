@@ -13,9 +13,6 @@ let stylePath = path.join(__dirname, '../src/styles');
 let staticSourcePath = path.resolve(__dirname, '..', 'dist'); // Deal with later
 
 module.exports = merge(common, {
-  // devtool: false,
-  // devtool: 'cheap-source-map',
-  // devtool: 'cheap-module-source-map',
   entry: {
     vendor: ['react', 'react-dom']
   },
@@ -40,7 +37,13 @@ module.exports = merge(common, {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin('dist'),
+    new CleanWebpackPlugin('dist/bundle', {
+      root: process.cwd(),
+      verbose: true
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin(), // Enables Scope hosting, reducing build size  
+    new webpack.optimize.UglifyJsPlugin({ parallel: true}), // Standard minification tool with additional configs
+    new webpack.HashedModuleIdsPlugin(), // Adds Deterministic Hashes for Caching, currently unnecssary but leave it here for now
     new webpack.DefinePlugin({ // Standard Production settings for optimization
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
@@ -75,9 +78,6 @@ module.exports = merge(common, {
         filename: 'app.[chunkhash].css',
         allChunks: true
     }),
-    new webpack.optimize.ModuleConcatenationPlugin(), // Enables Scope hosting, reducing build size  
-    new webpack.optimize.UglifyJsPlugin({ parallel: true}), // Standard minification tool with additional configs
-    new webpack.HashedModuleIdsPlugin(), // Adds Deterministic Hashes for Caching, currently unnecssary but leave it here for now
     new webpack.optimize.CommonsChunkPlugin({ // Bundles minified core libraries
       name: 'vendor',
       filename: 'app.[chunkhash].bundle.js',
