@@ -18,3 +18,7 @@
 3. Cherry picking for optimal builds!
   i. Example 
     import find from 'lodash/find' will only import the find function and not all of lodash!
+
+## Major ISSUES
+1. Node Sass does not work with Node V9
+2. Must install node-sass to dependency for sass to work

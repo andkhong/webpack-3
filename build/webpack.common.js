@@ -23,8 +23,8 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 include: /src/,
                 exclude: /node_modules/,
-                loader: 'babel-loader?cacheDirectory=true',
-                // loader: ['cache-loader', 'babel-loader?cacheDirectory=true'],
+                // loader: 'babel-loader?cacheDirectory=true',
+                loader: ['cache-loader', 'babel-loader?cacheDirectory=true'],
             },
             {
                 test: /\.(jpg|jpeg|gif|png|svg|woff|woff2|otf|ttf|eot)$/,

@@ -44,9 +44,7 @@ module.exports = merge(common, {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': JSON.stringify('development')} }),
-        // Code splitting in conjunction with Manifest keeps tracks of code that is unchange and doesn't rebuild core bundle
-        // Webpack will recognize and recompile split code that is changing; incremental builds
-        new webpack.optimize.CommonsChunkPlugin({
+        new webpack.optimize.CommonsChunkPlugin({ // Manifest + Dynamic Imports => Lazy Loading + Incremental Builds (Incredibly fast builds)
             name: 'manifest',
             minChunks: Infinity
         }),

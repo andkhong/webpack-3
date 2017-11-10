@@ -9,7 +9,7 @@
     ],
     "plugins": [
         "transform-runtime", // Allows for Async/Await functions
-        "syntax-dynamic-import" // Allows for dynamic imports, which means code splitting
+        "syntax-dynamic-import" // Allows for dynamic imports, which means code splitting and lazy loading
     ],
     "env": {
         "production": {
