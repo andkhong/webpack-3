@@ -4,9 +4,11 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-let stylePath = path.join(__dirname, '../src/styles');
-let basePath = path.join(__dirname, '..', 'dist');
-let nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
+const sourcePath = path.resolve(__dirname, '..', 'src');
+const nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
+const stylePath = path.join(__dirname, '../src/styles');
+const basePath = path.join(__dirname, '..', 'dist');
+const regex = new RegExp(`${sourcePath}`);
 
 module.exports = merge(common, {
     // devtool: 'cheap-module-eval-source-map',
@@ -16,6 +18,12 @@ module.exports = merge(common, {
     },
     module: {
         rules: [
+            { 
+                test: /\.(js|jsx)$/,
+                include: sourcePath,
+                exclude: nodeModulesPath,
+                loader: ['cache-loader', 'babel-loader?cacheDirectory=true']
+            },
             {
                 test: /\.(css|scss)$/,
                 include: stylePath,
@@ -44,10 +52,18 @@ module.exports = merge(common, {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': JSON.stringify('development')} }),
-        new webpack.optimize.CommonsChunkPlugin({ // Manifest + Dynamic Imports => Lazy Loading + Incremental Builds (Incredibly fast builds)
+        new webpack.optimize.CommonsChunkPlugin({ // Manifest + Dynamic Imports => Lazy Loading + Incremental Builds (Incredibly fast builds + compile)
             name: 'manifest',
             minChunks: Infinity
         }),
+        new webpack.NamedChunksPlugin(function(chunk) {
+            if (chunk.name) return chunk.name;      
+            for (var m of chunk._modules) {
+                if (regex.test(m.context)) {
+                    return path.basename(m.rawRequest);
+                }
+            }
+        })  
         // new BundleAnalyzerPlugin(), // Comment to analyze Bundle size
     ]
 });

@@ -11,6 +11,8 @@
         "transform-runtime", // Allows for Async/Await functions
         "syntax-dynamic-import" // Allows for dynamic imports, which means code splitting and lazy loading
     ],
+    // Package JSON needs to declare node.env to production so that babel can enable the use of these plugins.
+    // Babel env.production.plugins will not be enabled
     "env": {
         "production": {
             "plugins": [

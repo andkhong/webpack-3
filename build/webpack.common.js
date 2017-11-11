@@ -1,9 +1,9 @@
 const path = require('path');
 
-let entryPath = path.resolve(__dirname, '..', 'src', 'index.js');
-let outputPath = path.resolve(__dirname, '..', 'dist', 'bundle');
-let sourcePath = path.resolve(__dirname, '..', 'src');
-let nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
+const sourcePath = path.resolve(__dirname, '..', 'src');
+const entryPath = path.resolve(__dirname, '..', 'src', 'index.js');
+const outputPath = path.resolve(__dirname, '..', 'dist', 'bundle');
+const nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
 
 module.exports = {
     entry: {
@@ -19,18 +19,11 @@ module.exports = {
     },
     module: {
         rules: [
-            { 
-                test: /\.(js|jsx)$/,
-                include: /src/,
-                exclude: /node_modules/,
-                // loader: 'babel-loader?cacheDirectory=true',
-                loader: ['cache-loader', 'babel-loader?cacheDirectory=true'],
-            },
             {
                 test: /\.(jpg|jpeg|gif|png|svg|woff|woff2|otf|ttf|eot)$/,
                     use: {
                     loader: 'file-loader',
-                     options: { name: '[name].[hash].[ext]' },
+                    options: { name: '[name].[hash].[ext]' },
                 }
             }
         ]

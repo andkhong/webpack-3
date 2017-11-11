@@ -6,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const HappyPack = require('happypack');
 // const CompressionPlugin = require('compression-webpack-plugin');
 // const OfflinePlugin = require('offline-plugin');
 // Bundle optimization plugins
@@ -25,6 +26,12 @@ module.exports = merge(common, {
   },
   module: {
     rules: [
+      { 
+        test: /\.(js|jsx)$/,
+        include: /src/,
+        exclude: /node_modules/,
+        loader: ['happypack/loader?id=js'],                
+      },
       {
         test: /\.(css|scss)$/,
         include: stylePath,
@@ -42,10 +49,9 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin('dist/bundle', { root: process.cwd(), verbose: true }),
-    new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': JSON.stringify('production')} }),    
-    new webpack.optimize.ModuleConcatenationPlugin(), // Enables Scope hosting, reducing build size  
-    new webpack.optimize.UglifyJsPlugin({ parallel: true}), // Standard minification tool with additional configs
-    new webpack.HashedModuleIdsPlugin(), // Adds Deterministic Hashes for Caching, currently unnecssary but leave it here for now
+    new webpack.optimize.ModuleConcatenationPlugin(),// Enables Scope hosting, reducing build size  
+    new webpack.HashedModuleIdsPlugin(),// Adds Deterministic Hashes for Caching, currently unnecssary but leave it here for now
+    new HappyPack({ id: 'js', loaders: ['cache-loader', 'babel-loader'], threads: 4 }),
     new HtmlWebpackPlugin({
       template: templatePath,
       filename: 'index_bundle.html',
