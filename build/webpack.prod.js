@@ -12,9 +12,11 @@ const HappyPack = require('happypack');
 // Bundle optimization plugins
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-let templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
-let stylePath = path.join(__dirname, '../src/styles');
-let staticSourcePath = path.resolve(__dirname, '..', 'dist'); // Deal with later
+const sourcePath = path.resolve(__dirname, '..', 'src');
+const templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
+const stylePath = path.join(__dirname, '../src/styles');
+const nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
+const staticSourcePath = path.resolve(__dirname, '..', 'dist'); // Deal with later
 
 module.exports = merge(common, {
   entry: {
@@ -28,14 +30,14 @@ module.exports = merge(common, {
     rules: [
       { 
         test: /\.(js|jsx)$/,
-        include: /src/,
-        exclude: /node_modules/,
+        include: sourcePath,
+        exclude: nodeModulesPath,
         loader: ['happypack/loader?id=js'],                
       },
       {
         test: /\.(css|scss)$/,
         include: stylePath,
-        exclude: /node_modules/,
+        exclude: nodeModulesPath,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -78,8 +80,8 @@ module.exports = merge(common, {
       }
     }),
     new ExtractTextPlugin({
-        filename: 'style.[chunkhash].css',
-        allChunks: true
+      filename: 'style.[chunkhash].css',
+      allChunks: true
     }),
     new webpack.optimize.CommonsChunkPlugin({ // Bundles minified core libraries
       name: 'vendor',
