@@ -7,9 +7,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const HappyPack = require('happypack');
-const CompressionPlugin = require('compression-webpack-plugin');
+// const CompressionPlugin = require('compression-webpack-plugin');
 // const OfflinePlugin = require('offline-plugin');
-// Bundle optimization plugins
+// // Bundle optimization plugins
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const sourcePath = path.resolve(__dirname, '..', 'src');
@@ -17,10 +17,14 @@ const templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
 const stylePath = path.join(__dirname, '../src/styles');
 const nodeModulesPath = path.resolve(__dirname, '..', 'node_modules');
 const staticSourcePath = path.resolve(__dirname, '..', 'dist'); // Deal with later
+const regex = new RegExp(`${sourcePath}`);
 
 module.exports = merge(common, {
   entry: {
-    vendor: ['react', 'react-dom']
+    vendor: [
+      'react',
+      'react-dom'
+    ]
   },
   output: {
     filename: '[name].[chunkhash].bundle.js',
@@ -54,6 +58,15 @@ module.exports = merge(common, {
     new webpack.optimize.ModuleConcatenationPlugin(),// Enables Scope hosting, reducing build size  
     new webpack.HashedModuleIdsPlugin(),// Adds Deterministic Hashes for Caching, currently unnecssary but leave it here for now
     new HappyPack({ id: 'js', loaders: ['cache-loader', 'babel-loader'], threads: 4 }),
+    new webpack.NamedChunksPlugin(function(chunk) {
+      if (chunk.name) return chunk.name;
+        for (let m of chunk._modules) {
+          if (regex.test(m.context)) {
+            if (!m.issuer) continue;
+            return path.basename(m.issuer.rawRequest);
+        }
+      }
+    }),
     new HtmlWebpackPlugin({
       template: templatePath,
       filename: 'index_bundle.html',
@@ -88,14 +101,14 @@ module.exports = merge(common, {
       filename: 'vendor.[chunkhash].bundle.js',
       minChunks: Infinity,
     }),
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.js$|\.css$/,
-      threshold: 10240,
-      minRatio: 0.8,
-      deleteOriginalAssets: true
-    }),
+    // new CompressionPlugin({
+    //   asset: '[path].gz[query]',
+    //   algorithm: 'gzip',
+    //   test: /\.js$|\.css$/,
+    //   threshold: 10240,
+    //   minRatio: 0.8,
+    //   deleteOriginalAssets: true
+    // }),
     // new OfflinePlugin({
     //   AppCache: false,
     //   ServiceWorker: { events: true },
