@@ -4,7 +4,7 @@ import 'styles/a';
 export default function Page1 () {
     return (
         <div className='world'>
-            Hello World! my name is slim shady
+            Hello World!
         </div>
     );
 }

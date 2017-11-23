@@ -64,6 +64,6 @@ module.exports = merge(common, {
                 }
             }
         }),
-        new BundleAnalyzerPlugin(), // Comment to analyze Bundle size
+        new BundleAnalyzerPlugin(), // Uncomment to analyze Bundle size
     ]
 });

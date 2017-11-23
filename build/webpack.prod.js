@@ -36,7 +36,7 @@ module.exports = merge(common, {
         test: /\.(js|jsx)$/,
         include: sourcePath,
         exclude: nodeModulesPath,
-        loader: ['happypack/loader?id=js'],                
+        loader: ['happypack/loader?id=js']
       },
       {
         test: /\.(css|scss)$/,
@@ -60,10 +60,13 @@ module.exports = merge(common, {
     new HappyPack({ id: 'js', loaders: ['cache-loader', 'babel-loader'], threads: 4 }),
     new webpack.NamedChunksPlugin(function(chunk) {
       if (chunk.name) return chunk.name;
-        for (let m of chunk._modules) {
-          if (regex.test(m.context)) {
-            if (!m.issuer) continue;
+      for (let m of chunk._modules) {
+        if (regex.test(m.context)) {
+          if (m.issuer && m.issuer.id) {
             return path.basename(m.issuer.rawRequest);
+          } else {
+            return path.basename(m.rawRequest);
+          }
         }
       }
     }),
