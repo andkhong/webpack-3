@@ -40,6 +40,7 @@ module.exports = merge(common, {
         contentBase: basePath, // Assets will be served
         open: true, // Open browser to localhost:port
         inline: false, // Inline reduces bundle size by fair amount, improving compilation while enabling resolve modules to work on webpack.common.js,
+        // hot: true,
         historyApiFallback: true, // Falls back to index.html; we won't have to set an entry point and add an additional html loader        
         port: 9000,
         proxy: {

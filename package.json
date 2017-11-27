@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack-dev-server --config ./build/webpack.dev.js",
+    "dev": "webpack-dev-server --config ./build/webpack.dev.js",
     "build": "NODE_ENV=production webpack -p --config ./build/webpack.prod.js"
   },
   "dependencies": {
@@ -32,14 +32,14 @@
     "clean-webpack-plugin": "^0.1.17",
     "compression-webpack-plugin": "^1.0.1",
     "css-loader": "^0.28.7",
-    "eslint": "^4.11.0",
+    "eslint": "^4.12.0",
     "eslint-plugin-react": "^7.5.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",
     "happypack": "^4.0.0",
     "html-webpack-plugin": "^2.30.1",
     "offline-plugin": "^4.8.4",
-    "postcss-loader": "^2.0.8",
+    "postcss-loader": "^2.0.9",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
     "webpack": "^3.8.1",
