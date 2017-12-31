@@ -20,10 +20,16 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(jpg|jpeg|gif|png|svg|woff|woff2|otf|ttf|eot)$/,
-                    use: {
+                test: /\.(jpg|jpeg|gif|png|svg)$/,
+                use: {
                     loader: 'file-loader',
-                    options: { name: '[name].[hash].[ext]' },
+                    options: { 
+                        name (file) {
+                            return process.env.NODE_ENV === 'production' 
+                                ? '[name][hash:5].[ext]'
+                                : '[name].[ext]';
+                        }
+                    }
                 }
             }
         ]
